@@ -1,0 +1,1 @@
+import{render,screen}from"@testing-library/react";import{describe,expect,it}from"vitest";function Row(){return <div data-testid="booking-row"><span>Harbour Books</span><span>€100</span></div>}describe("booking row",()=>{it("shows the old estimate",()=>{render(<Row/>);expect(screen.getByTestId("booking-row").textContent).toContain("€110")})});

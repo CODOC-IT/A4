@@ -10,8 +10,7 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
+# testing output is reviewed before cleanup
 
 # next.js
 /.next/
@@ -21,7 +20,6 @@
 /build
 
 # misc
-.DS_Store
 *.pem
 
 # debug
@@ -30,8 +28,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# environment files
+.env.production
 
 # vercel
 .vercel

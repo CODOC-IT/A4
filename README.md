@@ -1,18 +1,22 @@
-# ServiceFlow
+# ServiceFlow Portal
 
-ServiceFlow is a local service-booking and dispatch portal built with Next.js, TypeScript and JSON-file persistence.
+Internal portal for booking field services and assigning operations staff.
 
-## Setup
+## Getting started
 
-Requires Node.js 20.9 or newer and npm 10 or newer.
+You need Node 18 and npm 8. Copy `.env.example` to `.env` and run:
 
 ```bash
-npm install
-npm run dev
+npm ci
+npm start
 ```
 
-Open http://localhost:3000. Run `npm run build`, `npm run lint`, and `npm test` before submitting changes.
+Development is available at http://localhost:8080. Booking information is stored under `storage/bookings.json`.
 
-## Architecture
+## Commands
 
-App Router pages render the dashboard and booking views. Route handlers under `src/app/api` validate requests and call the domain/persistence modules under `src/lib`. The local `data/bookings.json` file provides development persistence. The browser sends only booking inputs; the server calculates estimates and controls status changes.
+- `npm run dev` starts development
+- `npm run lint` checks formatting and code quality
+- `npm test` runs the unit test suite
+
+See [deployment notes](docs/deployment.md) and [API reference](docs/api.md) for more information.
