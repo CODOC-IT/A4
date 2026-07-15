@@ -1,0 +1,4 @@
+ServiceFlow portal refresh
+- dashboard summary updated
+- team assignment display reviewed
+- booking exports retained for operations
