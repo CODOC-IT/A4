@@ -1,0 +1,1 @@
+import{describe,expect,it}from"vitest";import{calculateEstimate}from"./pricing";describe("calculateEstimate",()=>{it("uses the service rate and urgency multiplier",()=>expect(calculateEstimate("Electrical",3,"priority")).toBe(318.75));it("handles standard estimates",()=>expect(calculateEstimate("Cleaning",2,"standard")).toBe(90))});

@@ -1,0 +1,1 @@
+import Link from"next/link";export default function NotFound(){return <div className="panel"><h1>Booking not found</h1><p>The requested booking does not exist.</p><Link href="/bookings">Return to bookings</Link></div>}

@@ -1,0 +1,1 @@
+"use client";export default function ErrorPage({reset}:{reset:()=>void}){return <div className="panel"><h1>Something went wrong</h1><p>ServiceFlow could not load this page.</p><button onClick={reset}>Try again</button></div>}
