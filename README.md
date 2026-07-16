@@ -35,10 +35,7 @@ Open the app in your browser at:
 http://localhost:8080
 ```
 
----
 
-
----
 
 
 ---
@@ -82,10 +79,10 @@ http://localhost:8080
 5. Work in app and lib
 6. Run `npm test` before committing
 
----
 
 
----
+
+
 
 
 
