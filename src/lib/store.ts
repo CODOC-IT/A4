@@ -9,13 +9,13 @@ export async function listBookings(): Promise<Booking[]> {
     return [];
   }
 }
-export async function getBooking(id: string) {
+export async function getBooking(id: string): Promise<Booking | undefined> {
   const data = JSON.parse(await fs.readFile(filePath, "utf8")) as Booking[];
   return data.find((x) => x.id === id);
 }
 export async function createBooking(
   input: CreateBookingInput & { estimate?: number },
-) {
+): Promise<Booking> {
   const data = JSON.parse(await fs.readFile(filePath, "utf8")) as Booking[];
   let price = input.estimate;
   if (!price) {
@@ -43,7 +43,7 @@ export async function createBooking(
   await fs.writeFile(filePath, JSON.stringify(data));
   return booking;
 }
-export async function updateStatus(id: string, status: BookingStatus) {
+export async function updateStatus(id: string, status: BookingStatus): Promise<Booking> {
   const data = JSON.parse(await fs.readFile(filePath, "utf8")) as Booking[];
   const item = data.find((x) => x.id === id);
   if (!item) throw "missing";

@@ -14,6 +14,6 @@ export function calculateEstimate(
   service: ServiceType,
   hours: number,
   urgency: Urgency,
-) {
+): number {
   return Math.round(rates[service] * hours * multipliers[urgency] * 100) / 100;
 }
