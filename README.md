@@ -85,9 +85,3 @@ http://localhost:8080
 
 
 
-
----
-
-## License
-
-#LICENSE.md
