@@ -1,1 +1,19 @@
-import {ServiceType,Urgency} from "./types"; const rates:Record<ServiceType,number>={Cleaning:45,Electrical:85,Plumbing:75,Inspection:55}; const multipliers:Record<Urgency,number>={standard:1,priority:1.25,emergency:1.6}; export function calculateEstimate(service:ServiceType,hours:number,urgency:Urgency){return Math.round(rates[service]*hours*multipliers[urgency]*100)/100}
+import { ServiceType, Urgency } from "./types";
+const rates: Record<ServiceType, number> = {
+  Cleaning: 45,
+  Electrical: 85,
+  Plumbing: 75,
+  Inspection: 55,
+};
+const multipliers: Record<Urgency, number> = {
+  standard: 1,
+  priority: 1.25,
+  emergency: 1.6,
+};
+export function calculateEstimate(
+  service: ServiceType,
+  hours: number,
+  urgency: Urgency,
+) {
+  return Math.round(rates[service] * hours * multipliers[urgency] * 100) / 100;
+}
