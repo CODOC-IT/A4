@@ -28,7 +28,7 @@ export interface Booking {
   assignee: string | null;
   notes: string;
   createdAt: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 export type CreateBookingInput = Pick<
   Booking,
