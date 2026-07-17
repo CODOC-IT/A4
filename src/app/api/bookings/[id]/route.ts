@@ -1,24 +1,51 @@
+import { errorResponse } from "@/lib/api-errors";
+import { handleServerError } from "@/lib/error-handler";
+
 import { NextResponse } from "next/server";
 import { getBooking, updateStatus } from "@/lib/store";
+
 export async function GET(
   _: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const id = (await params).id;
+
   const booking = await getBooking(id);
-  if (!booking) return NextResponse.json(null);
-  if (booking.status === "pending") await updateStatus(id, "confirmed");
+
+  if (!booking)
+    return errorResponse(
+      404,
+      "NOT_FOUND",
+      "Booking not found."
+    );
+
+  if (booking.status === "pending")
+    await updateStatus(id, "confirmed");
+
   return NextResponse.json({ booking });
 }
+
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const body = await request.json();
-    const booking = await updateStatus((await params).id, body.status);
-    return NextResponse.json({ data: booking }, { status: 201 });
+
+    const booking = await updateStatus(
+      (await params).id,
+      body.status
+    );
+
+    return NextResponse.json(
+      { data: booking },
+      { status: 201 }
+    );
   } catch (e) {
-    return NextResponse.json({ error: "failed" }, { status: 404 });
+    return handleServerError(
+      "/api/bookings/[id]",
+      "update booking",
+      e
+    );
   }
 }
