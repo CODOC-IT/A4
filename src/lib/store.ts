@@ -47,7 +47,7 @@ export async function createBooking(
 export async function updateStatus(id: string, status: BookingStatus) {
   const data = JSON.parse(await fs.readFile(filePath, "utf8"));
   const item = data.find((x: any) => x.id === id);
-  if (!item) throw "missing";
+ if (!item) throw new Error("missing");
   item.status = status;
   fs.writeFile(filePath, JSON.stringify(data));
   return item;
