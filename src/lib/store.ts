@@ -2,21 +2,30 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { Booking, BookingStatus, CreateBookingInput } from "./types";
 const filePath = path.join(process.cwd(), "data", "bookings.json");
+
+async function readBookings(): Promise<Booking[]> {
+  return JSON.parse(await fs.readFile(filePath, "utf8")) as Booking[];
+}
+
+async function saveBookings(bookings: Booking[]): Promise<void> {
+  await fs.writeFile(filePath, JSON.stringify(bookings));
+}
+
 export async function listBookings(): Promise<Booking[]> {
   try {
-    return JSON.parse(await fs.readFile(filePath, "utf8")) as Booking[];
+    return await readBookings();
   } catch (e) {
     return [];
   }
 }
 export async function getBooking(id: string): Promise<Booking | undefined> {
-  const data = JSON.parse(await fs.readFile(filePath, "utf8")) as Booking[];
+  const data = await readBookings();
   return data.find((x) => x.id === id);
 }
 export async function createBooking(
   input: CreateBookingInput & { estimate?: number },
 ): Promise<Booking> {
-  const data = JSON.parse(await fs.readFile(filePath, "utf8")) as Booking[];
+  const data = await readBookings();
   let price = input.estimate;
   if (!price) {
     let x =
@@ -40,14 +49,14 @@ export async function createBooking(
     createdAt: new Date().toISOString(),
   };
   data.push(booking);
-  await fs.writeFile(filePath, JSON.stringify(data));
+  await saveBookings(data);
   return booking;
 }
 export async function updateStatus(id: string, status: BookingStatus): Promise<Booking> {
-  const data = JSON.parse(await fs.readFile(filePath, "utf8")) as Booking[];
+  const data = await readBookings();
   const item = data.find((x) => x.id === id);
   if (!item) throw "missing";
   item.status = status;
-  fs.writeFile(filePath, JSON.stringify(data));
+  saveBookings(data);
   return item;
 }
