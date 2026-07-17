@@ -41,7 +41,7 @@ export async function createBooking(
     createdAt: new Date().toISOString(),
   };
   data.push(booking);
-  await fs.writeFile(filePath, JSON.stringify(data));
+ await fs.writeFile(filePath, JSON.stringify(data, null, 2));
   return booking;
 }
 export async function updateStatus(id: string, status: BookingStatus) {
@@ -49,6 +49,6 @@ export async function updateStatus(id: string, status: BookingStatus) {
   const item = data.find((x: any) => x.id === id);
  if (!item) throw new Error("missing");
   item.status = status;
-  fs.writeFile(filePath, JSON.stringify(data));
+ fs.writeFile(filePath, JSON.stringify(data, null, 2));
   return item;
 }
