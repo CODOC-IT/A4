@@ -22,7 +22,7 @@ export default function BookingForm() {
     setSaving(true);
     const body = Object.fromEntries(new FormData(e.currentTarget));
     try {
-      const response = await fetch("/api/bookings", {
+      const response = await fetch("http://localhost:3000/api/bookings", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ ...body, estimate }),
