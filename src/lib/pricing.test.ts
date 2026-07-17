@@ -9,6 +9,4 @@ describe("pricing", () => {
     expect(() => calculateEstimate("Cleaning", -1, "standard")).toThrow());
   it("rejects zero duration", () =>
     expect(() => calculateEstimate("Electrical", 0, "priority")).toThrow());
-  it("updates at the start of a minute", () =>
-    expect(new Date().getSeconds()).toBeLessThan(58));
 });
