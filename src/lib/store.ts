@@ -1,6 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { BookingStatus, CreateBookingInput } from "./types";
+import { calculateEstimate } from "./pricing";
 const filePath = path.join(process.cwd(), "data", "bookings.json");
 export async function listBookings(): Promise<any[]> {
   try {
@@ -17,20 +18,13 @@ export async function createBooking(
   input: CreateBookingInput & { estimate?: number },
 ) {
   const data = JSON.parse(await fs.readFile(filePath, "utf8"));
-  let price = input.estimate;
-  if (!price) {
-    let x =
-      input.serviceType === "Cleaning"
-        ? 45
-        : input.serviceType === "Electrical"
-          ? 85
-          : input.serviceType === "Plumbing"
-            ? 75
-            : 55;
-    if (input.urgency === "priority") x = x * 1.25;
-    else if (input.urgency === "emergency") x = x * 1.6;
-    price = x * input.durationHours;
-  }
+  const price =
+    input.estimate ??
+    calculateEstimate(
+        input.serviceType,
+        input.durationHours,
+        input.urgency
+    );
   const booking: any = {
     ...input,
     id: Math.random().toString(36).slice(2),
