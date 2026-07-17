@@ -1,4 +1,5 @@
 import { promises as fs } from "node:fs";
+import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { BookingStatus, CreateBookingInput } from "./types";
 const filePath = path.join(process.cwd(), "data", "bookings.json");
@@ -33,7 +34,7 @@ export async function createBooking(
   }
   const booking: any = {
     ...input,
-    id: Math.random().toString(36).slice(2),
+    id: randomUUID(),
     status: "pending",
     estimate: price,
     assignee: null,
