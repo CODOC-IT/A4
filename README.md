@@ -97,7 +97,7 @@ See [deployment notes](docs/deployment.md) 📘 and [API reference](docs/api.md)
 | Member | GitHub |
 |--------|--------|
 | Bilal Mughal | [@Bilalmughal-07](https://github.com/Bilalmughal-07) |
-| Abdul Azeem Hashmi | [@AbdulAzeemHashmi](https://github.com/AbdulAzeemHashmi) ⬅️ **You are here** |
+| Abdul Azeem Hashmi | [@AbdulAzeemHashmi](https://github.com/AbdulAzeemHashmi) |
 | Emaan Ahmed | [@emaanahmed5](https://github.com/emaanahmed5) |
 | Abdul Rafih Khan | [@RafihKhan-47](https://github.com/RafihKhan-47) |
 
