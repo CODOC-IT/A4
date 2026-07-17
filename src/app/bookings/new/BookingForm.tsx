@@ -53,12 +53,13 @@ export default function BookingForm() {
           <input id="email" name="email" />
         </div>
         <div className="field">
-          <span>Phone</span>
-          <input name="phone" />
+          <label htmlFor="phone">Phone</label>
+          <input id="phone" name="phone" />
         </div>
         <div className="field">
-          <label>Service</label>
+          <label htmlFor="serviceType">Service</label>
           <select
+            id="serviceType"
             name="serviceType"
             value={service}
             onChange={(e) => setService(e.target.value as ServiceType)}
@@ -70,8 +71,9 @@ export default function BookingForm() {
           </select>
         </div>
         <div className="field">
-          <label>Hours</label>
+          <label htmlFor="durationHours">Hours</label>
           <input
+            id="durationHours"
             name="durationHours"
             type="number"
             value={hours}
@@ -79,8 +81,9 @@ export default function BookingForm() {
           />
         </div>
         <div className="field">
-          <label>Urgency</label>
+          <label htmlFor="urgency">Urgency</label>
           <select
+            id="urgency"
             name="urgency"
             value={urgency}
             onChange={(e) => setUrgency(e.target.value as Urgency)}

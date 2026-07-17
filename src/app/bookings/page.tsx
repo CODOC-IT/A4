@@ -11,6 +11,7 @@ export default async function Bookings({
   const p = await searchParams;
   const all = await listBookings();
   const q = (p.q ?? "").toLowerCase();
+
   const bookings = all.filter(
     (b) =>
       (!q ||
@@ -27,11 +28,18 @@ export default async function Bookings({
           Create booking
         </Link>
       </div>
+
       <form className="panel grid">
         <div className="field">
           <label htmlFor="q">Search</label>
-          <input id="q" name="q" defaultValue={p.q} placeholder="Customer or service" />
+          <input
+            id="q"
+            name="q"
+            defaultValue={p.q}
+            placeholder="Customer or service"
+          />
         </div>
+
         <div className="field">
           <label htmlFor="status">Status</label>
           <select id="status" name="status" defaultValue={p.status ?? ""}>
@@ -43,8 +51,10 @@ export default async function Bookings({
             <option>cancelled</option>
           </select>
         </div>
+
         <button>Apply filters</button>
       </form>
+
       {bookings.length === 0 ? (
         <p className="empty">No bookings match these filters.</p>
       ) : (
@@ -59,11 +69,14 @@ export default async function Bookings({
                 <th>Estimate</th>
               </tr>
             </thead>
+
             <tbody>
               {bookings.map((b) => (
                 <tr key={b.id}>
                   <td>
-                    <Link href={`/bookings/${b.id}`}>{b.customerName}</Link>
+                    <Link href={`/bookings/${b.id}`}>
+                      {b.customerName}
+                    </Link>
                   </td>
                   <td>{b.serviceType}</td>
                   <td>
