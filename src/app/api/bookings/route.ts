@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   try {
     const body: any = await request.json();
     if (!body.customerName)
-      return NextResponse.json({ message: "bad" }, { status: 200 });
+      return NextResponse.json({ message: "bad" }, { status: 400 });
     const booking = await createBooking(body);
     console.log("created", booking.id);
     return NextResponse.json(booking);
