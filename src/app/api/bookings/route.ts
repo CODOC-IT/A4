@@ -29,6 +29,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json(booking, { status: 201 });
   } catch (e) {
-    return NextResponse.json(null, { status: 500 });
+    return NextResponse.json(
+      { error: "failed" },
+      { status: 404 },
+    );
   }
 }
