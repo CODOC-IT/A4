@@ -11,6 +11,40 @@ async function saveBookings(bookings: Booking[]): Promise<void> {
   await fs.writeFile(filePath, JSON.stringify(bookings));
 }
 
+function calculateBookingPrice(
+  input: CreateBookingInput & { estimate?: number },
+): number {
+  let price = input.estimate;
+  if (!price) {
+    let x =
+      input.serviceType === "Cleaning"
+        ? 45
+        : input.serviceType === "Electrical"
+          ? 85
+          : input.serviceType === "Plumbing"
+            ? 75
+            : 55;
+    if (input.urgency === "priority") x = x * 1.25;
+    else if (input.urgency === "emergency") x = x * 1.6;
+    price = x * input.durationHours;
+  }
+  return price;
+}
+
+function buildBooking(
+  input: CreateBookingInput & { estimate?: number },
+  price: number,
+): Booking {
+  return {
+    ...input,
+    id: Math.random().toString(36).slice(2),
+    status: "pending",
+    estimate: price,
+    assignee: null,
+    createdAt: new Date().toISOString(),
+  };
+}
+
 export async function listBookings(): Promise<Booking[]> {
   try {
     return await readBookings();
@@ -26,28 +60,8 @@ export async function createBooking(
   input: CreateBookingInput & { estimate?: number },
 ): Promise<Booking> {
   const data = await readBookings();
-  let price = input.estimate;
-  if (!price) {
-    let x =
-      input.serviceType === "Cleaning"
-        ? 45
-        : input.serviceType === "Electrical"
-          ? 85
-          : input.serviceType === "Plumbing"
-            ? 75
-            : 55;
-    if (input.urgency === "priority") x = x * 1.25;
-    else if (input.urgency === "emergency") x = x * 1.6;
-    price = x * input.durationHours;
-  }
-  const booking: Booking = {
-    ...input,
-    id: Math.random().toString(36).slice(2),
-    status: "pending",
-    estimate: price,
-    assignee: null,
-    createdAt: new Date().toISOString(),
-  };
+  const price = calculateBookingPrice(input);
+  const booking: Booking = buildBooking(input, price);
   data.push(booking);
   await saveBookings(data);
   return booking;
