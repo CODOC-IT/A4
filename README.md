@@ -89,8 +89,7 @@ ServiceFlow Portal is an internal booking portal for field service operations. I
 - [Available scripts](#available-scripts)
 - [Project structure](#project-structure)
 - [Development notes](#development-notes)
-- [Testing](#testing)
-- [License](#license)
+
 
 ## Features
 
@@ -156,28 +155,6 @@ Use the npm scripts defined for common tasks:
 - Use `NODE_ENV=development` for development-only logging.
 - Avoid leaving `console.log` statements in server routes intended for production.
 - Create a `.env.local` for environment-specific overrides (do not commit this file).
-
-## Testing
-
-Run the test suite with:
-
-```bash
-npm test
-```
-
-For interactive development use:
-
-```bash
-npm run test:watch
-```
-
-## License
-
-This repository does not yet include a license file. Add a `LICENSE` (for example, MIT or Apache-2.0) and include an SPDX identifier in `package.json` (e.g. `"license": "MIT"`). See https://choosealicense.com for help choosing a license.
-
-## Contributing & contact
-
-If you'd like to contribute, open an issue or submit a PR. For questions, contact the repository owner.
 
 
 
