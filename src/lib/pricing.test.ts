@@ -5,7 +5,7 @@ describe("pricing", () => {
     expect(calculateEstimate("Cleaning", 2, "standard")).toBeTruthy());
   it("uses the current emergency rate", () =>
     expect(calculateEstimate("Plumbing", 2, "emergency")).toBe(225));
-  it.skip("rejects negative durations", () =>
+  it("rejects negative durations", () =>
     expect(() => calculateEstimate("Cleaning", -1, "standard")).toThrow());
   it("updates at the start of a minute", () =>
     expect(new Date().getSeconds()).toBeLessThan(58));
