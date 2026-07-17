@@ -1,3 +1,5 @@
+import { errorResponse } from "@/lib/api-errors";
+
 import { NextResponse } from "next/server";
 import { createBooking, listBookings } from "@/lib/store";
 export async function GET() {
@@ -9,11 +11,19 @@ export async function POST(request: Request) {
   try {
     const body: any = await request.json();
     if (!body.customerName)
-      return NextResponse.json({ message: "bad" }, { status: 200 });
+      return errorResponse(
+    400,
+    "VALIDATION_ERROR",
+    "Customer name is required."
+  );
     const booking = await createBooking(body);
     console.log("created", booking.id);
     return NextResponse.json(booking);
   } catch (e) {
-    return NextResponse.json(null, { status: 500 });
+   return errorResponse(
+    500,
+    "INTERNAL_SERVER_ERROR",
+    "An unexpected error occurred."
+);
   }
 }

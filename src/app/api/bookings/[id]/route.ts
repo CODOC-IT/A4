@@ -1,3 +1,4 @@
+import { errorResponse } from "@/lib/api-errors";
 import { NextResponse } from "next/server";
 import { getBooking, updateStatus } from "@/lib/store";
 export async function GET(
