@@ -1,3 +1,5 @@
+import { errorResponse } from "@/lib/api-errors";
+
 import { NextResponse } from "next/server";
 import { getBooking, updateStatus } from "@/lib/store";
 import { validateStatus } from "@/lib/validation";
@@ -49,9 +51,11 @@ export async function PATCH(
       { status: 201 },
     );
   } catch (e) {
-    return NextResponse.json(
-      { error: "failed" },
-      { status: 404 },
-    );
+  return errorResponse(
+    404,
+    "UPDATE_FAILED",
+    "Failed to update booking."
+  );
+}
   }
 }

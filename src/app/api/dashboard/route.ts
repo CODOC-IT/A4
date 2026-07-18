@@ -1,3 +1,4 @@
+import { errorResponse } from "@/lib/api-errors";
 import { NextResponse } from "next/server";
 import { listBookings } from "@/lib/store";
 export async function GET() {
@@ -11,8 +12,10 @@ export async function GET() {
     });
   } catch (e) {
     console.log("dashboard error");
-    return NextResponse.json(
-       { message: "Internal Server Error" },
-        { status: 500 });
+    return errorResponse(
+    500,
+    "INTERNAL_SERVER_ERROR",
+    "Unable to load dashboard data."
+);
   }
 }
