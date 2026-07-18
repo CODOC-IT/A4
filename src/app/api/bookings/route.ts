@@ -1,29 +1,61 @@
 import { errorResponse } from "@/lib/api-errors";
 
 import { NextResponse } from "next/server";
-import { createBooking, listBookings } from "@/lib/store";
-export async function GET() {
-  const data = await listBookings();
-  data.sort(() => Math.random() - 0.5);
-  return NextResponse.json(data);
+import { getBooking, updateStatus } from "@/lib/store";
+import { validateStatus } from "@/lib/validation";
+
+export async function GET(
+  _: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const id = (await params).id;
+  const booking = await getBooking(id);
+
+  if (!booking) {
+    return NextResponse.json(null);
+  }
+
+  if (booking.status === "pending") {
+    await updateStatus(id, "confirmed");
+  }
+
+  return NextResponse.json({ booking });
 }
-export async function POST(request: Request) {
+
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
-    const body: any = await request.json();
-    if (!body.customerName)
-      return errorResponse(
-    400,
-    "VALIDATION_ERROR",
-    "Customer name is required."
-  );
-    const booking = await createBooking(body);
-    console.log("created", booking.id);
-    return NextResponse.json(booking);
+    const body = await request.json();
+
+    const validation = validateStatus(body.status);
+
+    if (validation.errors) {
+      return NextResponse.json(
+        {
+          error: "Validation failed",
+          details: validation.errors,
+        },
+        { status: 400 },
+      );
+    }
+
+    const booking = await updateStatus(
+      (await params).id,
+      validation.data!,
+    );
+
+    return NextResponse.json(
+      { data: booking },
+      { status: 200 },
+    );
   } catch (e) {
-   return errorResponse(
-    500,
-    "INTERNAL_SERVER_ERROR",
-    "An unexpected error occurred."
-);
+  return errorResponse(
+    404,
+    "UPDATE_FAILED",
+    "Failed to update booking."
+  );
+}
   }
 }
