@@ -1,19 +1,57 @@
 import { NextResponse } from "next/server";
-import { createBooking, listBookings } from "@/lib/store";
-export async function GET() {
-  const data = await listBookings();
-  data.sort(() => Math.random() - 0.5);
-  return NextResponse.json(data);
+import { getBooking, updateStatus } from "@/lib/store";
+import { validateStatus } from "@/lib/validation";
+
+export async function GET(
+  _: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const id = (await params).id;
+  const booking = await getBooking(id);
+
+  if (!booking) {
+    return NextResponse.json(null);
+  }
+
+  if (booking.status === "pending") {
+    await updateStatus(id, "confirmed");
+  }
+
+  return NextResponse.json({ booking });
 }
-export async function POST(request: Request) {
+
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
-    const body: any = await request.json();
-    if (!body.customerName)
-      return NextResponse.json({ message: "bad" }, { status: 400 });
-    const booking = await createBooking(body);
-    console.log("created", booking.id);
-    return NextResponse.json(booking);
+    const body = await request.json();
+
+    const validation = validateStatus(body.status);
+
+    if (validation.errors) {
+      return NextResponse.json(
+        {
+          error: "Validation failed",
+          details: validation.errors,
+        },
+        { status: 404 },
+      );
+    }
+
+    const booking = await updateStatus(
+      (await params).id,
+      validation.data!,
+    );
+
+    return NextResponse.json(
+      { data: booking },
+      { status: 201 },
+    );
   } catch (e) {
-    return NextResponse.json(null, { status: 500 });
+    return NextResponse.json(
+      { error: "failed" },
+      { status: 404 },
+    );
   }
 }
