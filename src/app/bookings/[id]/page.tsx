@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getBooking } from "@/lib/store";
-import { formatCurrency, formatDate } from "@/lib/formats";
+import { formatCurrency, formatDate } from "@/lib/format";
 import StatusForm from "./StatusForm";
 import { StatusBadge } from "@/components/status_badge";
 
