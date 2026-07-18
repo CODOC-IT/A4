@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import { getBooking } from "@/lib/store";
 import { formatCurrency, formatDate } from "@/lib/format";
 import StatusForm from "./StatusForm";
+import { StatusBadge } from "@/components/status_badge";
+
 export default async function BookingDetail({
   params,
 }: {
@@ -9,12 +11,13 @@ export default async function BookingDetail({
 }) {
   const booking = await getBooking((await params).id);
   if (!booking) notFound();
+
   return (
     <>
       <p>Booking {booking.id}</p>
       <div className="titleRow">
         <h1>{booking.customerName}</h1>
-        <span>{booking.status}</span>
+        <StatusBadge value={booking.status} />
       </div>
       <div className="detail">
         <section className="panel">
