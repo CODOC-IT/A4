@@ -2,6 +2,7 @@ import { promises as fs } from "node:fs";
 import { buildBooking } from "./bookingService";
 import path from "node:path";
 import { BookingStatus, CreateBookingInput } from "./types";
+import { calculateEstimate } from "./pricing";
 const filePath = path.join(process.cwd(), "data", "bookings.json");
 export async function listBookings(): Promise<any[]> {
   try {

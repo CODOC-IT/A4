@@ -15,5 +15,7 @@ export function calculateEstimate(
   hours: number,
   urgency: Urgency,
 ) {
+  if (typeof hours !== "number" || hours <= 0)
+    throw new Error("Duration must be a positive number");
   return Math.round(rates[service] * hours * multipliers[urgency] * 100) / 100;
 }
