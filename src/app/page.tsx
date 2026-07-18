@@ -1,14 +1,18 @@
 import Link from "next/link";
 import { listBookings } from "@/lib/store";
 import { formatCurrency, formatDate } from "@/lib/format";
+import { StatusBadge } from "@/components/status_badge";
+import SummaryCard from "@/components/SummaryCard";
+
 export default async function Dashboard() {
   const data2 = await listBookings();
   const active = data2.filter(
-    (b) => !["completed", "cancelled"].includes(b.status),
+    (b) => !["completed", "cancelled"].includes(b.status)
   ).length;
   const revenue = data2
     .filter((b) => b.status === "completed")
     .reduce((sum, b) => sum + b.estimate, 0);
+
   return (
     <>
       <div className="titleRow">
@@ -17,22 +21,13 @@ export default async function Dashboard() {
           <h1>Dashboard</h1>
         </div>
         <Link className="button" href="/bookings/new">
-          Create booking
+              Create booking
         </Link>
       </div>
       <section className="cards">
-        <article className="card">
-          <span>Total bookings</span>
-          <strong>{data2.length}</strong>
-        </article>
-        <article className="card">
-          <span>Active jobs</span>
-          <strong>{active}</strong>
-        </article>
-        <article className="card">
-          <span>Completed revenue</span>
-          <strong>{revenue.toFixed(2)} EUR</strong>
-        </article>
+        <SummaryCard label="Total bookings" value={data2.length} />
+        <SummaryCard label="Active jobs" value={active} />
+        <SummaryCard label="Completed revenue" value={`${revenue.toFixed(2)} EUR`} />
       </section>
       <section>
         <div className="titleRow">
@@ -61,15 +56,7 @@ export default async function Dashboard() {
                     </td>
                     <td>{b.serviceType}</td>
                     <td>
-                      <span
-                        style={{
-                          background:
-                            b.status === "completed" ? "#cfc" : "#ddd",
-                          padding: 5,
-                        }}
-                      >
-                        {b.status}
-                      </span>
+                      <StatusBadge value={b.status} />
                     </td>
                     <td>{new Date(b.createdAt).toLocaleDateString()}</td>
                     <td>€{b.estimate}</td>
