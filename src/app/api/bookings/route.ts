@@ -35,7 +35,7 @@ export async function PATCH(
           error: "Validation failed",
           details: validation.errors,
         },
-        { status: 404 },
+        { status: 400 },
       );
     }
 
@@ -46,7 +46,7 @@ export async function PATCH(
 
     return NextResponse.json(
       { data: booking },
-      { status: 201 },
+      { status: 200 },
     );
   } catch (e) {
     return NextResponse.json(
