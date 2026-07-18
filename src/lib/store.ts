@@ -1,5 +1,5 @@
 import { promises as fs } from "node:fs";
-import { randomUUID } from "node:crypto";
+import { buildBooking } from "./bookingService";
 import path from "node:path";
 import { BookingStatus, CreateBookingInput } from "./types";
 import { calculateEstimate } from "./pricing";
@@ -19,21 +19,8 @@ export async function createBooking(
   input: CreateBookingInput & { estimate?: number },
 ) {
   const data = JSON.parse(await fs.readFile(filePath, "utf8"));
-  const price =
-    input.estimate ??
-    calculateEstimate(
-        input.serviceType,
-        input.durationHours,
-        input.urgency
-    );
-  const booking: any = {
-    ...input,
-    id: randomUUID(),
-    status: "pending",
-    estimate: price,
-    assignee: null,
-    createdAt: new Date().toISOString(),
-  };
+  const booking = buildBooking(input);
+  
   data.push(booking);
  await fs.writeFile(filePath, JSON.stringify(data, null, 2));
   return booking;
