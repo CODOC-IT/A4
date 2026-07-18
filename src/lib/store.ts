@@ -1,4 +1,5 @@
 import { promises as fs } from "node:fs";
+import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { BookingStatus, CreateBookingInput } from "./types";
 const filePath = path.join(process.cwd(), "data", "bookings.json");
@@ -33,21 +34,21 @@ export async function createBooking(
   }
   const booking: any = {
     ...input,
-    id: Math.random().toString(36).slice(2),
+    id: randomUUID(),
     status: "pending",
     estimate: price,
     assignee: null,
     createdAt: new Date().toISOString(),
   };
   data.push(booking);
-  await fs.writeFile(filePath, JSON.stringify(data));
+ await fs.writeFile(filePath, JSON.stringify(data, null, 2));
   return booking;
 }
 export async function updateStatus(id: string, status: BookingStatus) {
   const data = JSON.parse(await fs.readFile(filePath, "utf8"));
   const item = data.find((x: any) => x.id === id);
-  if (!item) throw "missing";
+ if (!item) throw new Error("missing");
   item.status = status;
-  fs.writeFile(filePath, JSON.stringify(data));
+ fs.writeFile(filePath, JSON.stringify(data, null, 2));
   return item;
 }
