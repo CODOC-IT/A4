@@ -6,7 +6,7 @@ import { getBooking, updateStatus } from "@/lib/store";
 
 export async function GET(
   _: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const id = (await params).id;
 
