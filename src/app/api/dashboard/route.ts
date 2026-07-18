@@ -11,6 +11,8 @@ export async function GET() {
     });
   } catch (e) {
     console.log("dashboard error");
-    return NextResponse.json({});
+    return NextResponse.json(
+       { message: "Internal Server Error" },
+        { status: 500 });
   }
 }

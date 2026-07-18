@@ -1,5 +1,1 @@
-[
-  {"id":"bk-1003","customerName":"Northside Bakery","email":"ops@example.test","phone":"+353 555 0103","serviceType":"Electrical","durationHours":3,"urgency":"priority","status":"in-progress","estimate":318.75,"assignee":"Maya Chen","notes":"Inspect intermittent power loss in preparation area.","createdAt":"2026-07-12T10:30:00.000Z"},
-  {"id":"bk-1002","customerName":"Harbour Books","email":"manager@example.test","phone":"+353 555 0102","serviceType":"Inspection","durationHours":2,"urgency":"standard","status":"confirmed","estimate":110,"assignee":"Owen Murphy","notes":"Quarterly safety inspection.","createdAt":"2026-07-10T09:15:00.000Z"},
-  {"id":"bk-1001","customerName":"Elm Street Studio","email":"studio@example.test","phone":"+353 555 0101","serviceType":"Cleaning","durationHours":4,"urgency":"standard","status":"completed","estimate":180,"assignee":"Maya Chen","notes":"Post-event cleaning.","createdAt":"2026-07-08T14:00:00.000Z"}
-]
+[]
