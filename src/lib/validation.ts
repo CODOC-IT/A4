@@ -1,21 +1,62 @@
-import { CreateBookingInput, serviceTypes, urgencies } from "./types";
+import {
+  CreateBookingInput,
+  serviceTypes,
+  urgencies,
+} from "./types";
+
 export function validateBooking(value: any): {
   data?: CreateBookingInput;
   errors?: Record<string, string>;
 } {
   const errors: Record<string, string> = {};
-  if (!value.customerName || typeof value.customerName !== "string" || value.customerName.trim().length === 0)
+
+  // Customer name
+  if (!value.customerName?.trim()) {
     errors.customerName = "Customer name is required";
-  else if (value.customerName.length > 100)
-    errors.customerName = "Customer name must be 100 characters or less";
-  if (!value.email || typeof value.email !== "string") errors.email = "Email is required";
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.email)) errors.email = "Invalid email format";
-  if (value.phone != null && typeof value.phone === "string" && value.phone.length > 20)
-    errors.phone = "Phone must be 20 characters or less";
-  if (!serviceTypes.includes(value.serviceType)) errors.serviceType = "Invalid service type";
-  const hours = Number(value.durationHours);
-  if (isNaN(hours) || hours <= 0 || hours > 168) errors.durationHours = "Duration must be between 1 and 168 hours";
-  if (!urgencies.includes(value.urgency)) errors.urgency = "Invalid urgency level";
-  if (Object.keys(errors).length > 0) return { errors };
-  return { data: value as CreateBookingInput };
+  } else if (value.customerName.length > 100) {
+    errors.customerName = "Customer name must not exceed 100 characters";
+  }
+
+  // Email
+  if (!value.email?.trim()) {
+    errors.email = "Email is required";
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.email)) {
+    errors.email = "Invalid email format";
+  }
+
+  // Phone
+  if (!value.phone?.trim()) {
+    errors.phone = "Phone number is required";
+  } else if (!/^[0-9+\-\s()]{7,20}$/.test(value.phone)) {
+    errors.phone = "Invalid phone number";
+  }
+
+  // Service type
+  if (!serviceTypes.includes(value.serviceType)) {
+    errors.serviceType = "Invalid service type";
+  }
+
+  // Duration
+  if (
+    typeof value.durationHours !== "number" ||
+    value.durationHours <= 0
+  ) {
+    errors.durationHours = "Duration must be greater than 0";
+  }
+
+  // Urgency
+  if (!urgencies.includes(value.urgency)) {
+    errors.urgency = "Invalid urgency";
+  }
+
+  // Notes
+  if (value.notes && value.notes.length > 500) {
+    errors.notes = "Notes must not exceed 500 characters";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { errors };
+  }
+
+  return { data: value };
 }

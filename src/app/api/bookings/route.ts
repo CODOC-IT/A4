@@ -1,3 +1,4 @@
+import { validateBooking } from "@/lib/validation";
 import { NextResponse } from "next/server";
 import { getBooking, updateStatus } from "@/lib/store";
 import { validateStatus } from "@/lib/validation";
@@ -25,29 +26,22 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const body = await request.json();
+    const body: any = await request.json();
+    const validation = validateBooking(body);
 
-    const validation = validateStatus(body.status);
+if (validation.errors) {
+  return NextResponse.json(
+    {
+      error: "Validation failed",
+      details: validation.errors,
+    },
+    { status: 400 }
+  );
+}
 
-    if (validation.errors) {
-      return NextResponse.json(
-        {
-          error: "Validation failed",
-          details: validation.errors,
-        },
-        { status: 404 },
-      );
-    }
-
-    const booking = await updateStatus(
-      (await params).id,
-      validation.data!,
-    );
-
-    return NextResponse.json(
-      { data: booking },
-      { status: 201 },
-    );
+const booking = await createBooking(validation.data!);
+    console.log("created", booking.id);
+   return NextResponse.json(booking, { status: 201 });
   } catch (e) {
     return NextResponse.json(
       { error: "failed" },
