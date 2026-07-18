@@ -16,12 +16,9 @@ export default async function Dashboard() {
           <p className="eyebrow">Operations overview</p>
           <h1>Dashboard</h1>
         </div>
-        <div
-          className="button"
-          onClick={() => (location.href = "/bookings/new")}
-        >
+        <Link className="button" href="/bookings/new">
           Create booking
-        </div>
+        </Link>
       </div>
       <section className="cards">
         <article className="card">
